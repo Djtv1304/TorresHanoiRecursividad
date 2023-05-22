@@ -167,25 +167,36 @@ public HanoiUI() {
     }
 
     private void resolverTorresDeHanoi(int n, Stack<String> origen, Stack<String> auxiliar, Stack<String> destino) {
+        System.out.println(n);
         if(!origen.isEmpty()) {
             origen.sort(((s1, s2) -> s2.compareTo(s1) )); //Ordeno la pila de inicio para tener el primer disco arriba del stack
         }
         if (!auxiliar.isEmpty()) {
             auxiliar.sort((s1, s2) -> s2.compareTo(s1));
         }
-        destino.sort((s1, s2) -> s2.compareTo(s1));
-        if (origen.size() == 1) {
-            String disco = origen.pop();
-            destino.push(disco);
-            return;
+        if (!destino.isEmpty()){
+           destino.sort((s1, s2) -> s2.compareTo(s1));
+        }
+        if (n == 1) {
+            if (!origen.isEmpty()) {
+                String disco = origen.pop();
+                destino.push(disco);
+                return;
+            }
+
+        } else {
+
+            resolverTorresDeHanoi(n -1, origen, destino,auxiliar);
+            if (!origen.isEmpty()) {
+                String disco = origen.pop();
+                destino.push(disco);
+            }
+
+
+            resolverTorresDeHanoi(n -1, auxiliar, origen,destino);
         }
 
-        resolverTorresDeHanoi(n -1, origen, auxiliar, destino);
 
-        String disco = origen.pop();
-        destino.push(disco);
-
-        resolverTorresDeHanoi(n -1, auxiliar, destino, origen);
 
     }
 
